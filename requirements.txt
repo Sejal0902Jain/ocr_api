@@ -1,0 +1,4 @@
+Flask==1.0
+Pillow==8.2.0
+pdf2image==1.14.0
+tesseract==0.1.3
