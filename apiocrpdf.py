@@ -1,3 +1,4 @@
+# import the necessary packages
 from flask import Flask, request, render_template
 import pytesseract
 from PIL import Image
@@ -7,7 +8,8 @@ import os
 
 def convert(pdf):
     PDF_file = pdf
-    pages = convert_from_path(PDF_file, 500,poppler_path=r'C:\Users\DELL\poppler-0.68.0_x86\poppler-0.68.0\bin')   
+    pages = convert_from_path(PDF_file, 500,poppler_path=r'C:\Users\DELL\poppler-0.68.0_x86\poppler-0.68.0\bin')  
+    # poppler_path 
 
     image_counter = 1
     for page in pages:
@@ -54,7 +56,8 @@ def success():
         f = request.files['file']
         f.save(f.filename)  
         name=f.filename
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'    
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  
+    # path of tesseract.exe 
     print(f,name)
     PDF_file = f
     fil = convert(name)
@@ -64,4 +67,3 @@ def success():
 if __name__ == "__main__":
     app.debug = False
     app.run()
-
