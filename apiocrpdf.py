@@ -8,7 +8,7 @@ import os
 
 def convert(pdf):
     PDF_file = pdf
-    pages = convert_from_path(PDF_file, 500,poppler_path=r'C:\Users\DELL\poppler-0.68.0_x86\poppler-0.68.0\bin')  
+    pages = convert_from_path(PDF_file, 500,poppler_path=r'C:\Program Files\poppler-0.68.0\bin')  
     # poppler_path 
 
     image_counter = 1
