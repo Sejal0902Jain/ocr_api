@@ -1,13 +1,6 @@
-# import the necessary packages
-import os
 from flask import Flask, request, render_template
-from imutils import paths
-import cv2
 import pytesseract
-import numpy as np
 from PIL import Image
-import pytesseract
-import sys
 from pdf2image import convert_from_path
 import os
 
@@ -17,8 +10,6 @@ def convert(pdf):
     pages = convert_from_path(PDF_file, 500,poppler_path=r'C:\Users\DELL\poppler-0.68.0_x86\poppler-0.68.0\bin')   
 
     image_counter = 1
-  
-
     for page in pages:
         filename = "page_"+str(image_counter)+".jpg"
         page.save(filename, 'JPEG')
@@ -39,19 +30,14 @@ def convert(pdf):
     return f
 
 
-
-#specify the default folder from where the files will be selected and uploaded
-PROJECT_HOME = os.path.dirname(os.path.realpath("C:\\Users\\DELL\\Desktop\\UK\\wetransfer-9d5256\\api_ocrpdf"))
+PROJECT_HOME = os.path.dirname(os.path.realpath(".\\api_ocrpdf"))
 UPLOAD_FOLDER  = '{}\\api_ocrpdf'.format(PROJECT_HOME)
 
-#folder uploaded
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  
 
-#to access that particular folder to upload the files and display it in this format
 @app.route("/", methods=['GET','POST'])
 def upload():
-    # return render_template('upload.html')
     return """
         <!doctype html>
         <title>Upload pdf for OCR</title>
@@ -62,7 +48,6 @@ def upload():
         </form>
         """
 
-#main logic to process the OCR on the uploaded file and display it on the local website by rendering the html template
 @app.route('/success', methods = ['POST'])  
 def success():  
     if request.method == 'POST':
@@ -79,3 +64,4 @@ def success():
 if __name__ == "__main__":
     app.debug = False
     app.run()
+
