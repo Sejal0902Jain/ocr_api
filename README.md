@@ -1,9 +1,11 @@
 ## Requirements:
-Download and install tesseract.exe 
+Download and install tesseract.exe
+
 Download and install poppler
 
 ## Run:
-pip install -r requirements.txt 
+pip install -r requirements.txt
+
 python apiocrpdf.py
 
 ## API LINK to be used: 
