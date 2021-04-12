@@ -1,15 +1,18 @@
 # import the necessary packages
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 import pytesseract
 from PIL import Image
 from pdf2image import convert_from_path
 import os
 
 
-def convert(pdf):
+def process(pdf):
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  
+    # path of tesseract.exe 
     PDF_file = pdf
     pages = convert_from_path(PDF_file, 500,poppler_path=r'C:\Program Files\poppler-0.68.0\bin')  
     # poppler_path 
+    # print(pdf)
 
     image_counter = 1
     for page in pages:
@@ -40,29 +43,23 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/", methods=['GET','POST'])
 def upload():
-    return """
-        <!doctype html>
-        <title>Upload pdf for OCR</title>
-        <h1>Upload pdf for OCR</h1>
-        <form action="/success" method="post" enctype="multipart/form-data">
-          <p><input type="file" name="file"/>
-             <input type="submit" value="Upload">
-        </form>
-        """
+    return "OCR_PDF"
 
-@app.route('/success', methods = ['POST'])  
-def success():  
+@app.route('/convert', methods = ['POST'])  
+def convert():  
     if request.method == 'POST':
-        f = request.files['file']
-        f.save(f.filename)  
-        name=f.filename
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  
-    # path of tesseract.exe 
-    print(f,name)
-    PDF_file = f
-    fil = convert(name)
-    with open(fil.name, 'r') as f: 
-        return render_template('content.html', text=f.read()) 
+        request_data = request.get_json()
+        name= str(request_data['path_PDF'])
+
+    if not os.path.exists(name):
+        status_code = Response(status=404)
+        return status_code
+
+    # Check if path is a file and serve
+    else:
+        fil = process(name)
+        status_code = Response(status=200)
+        return status_code
 
 if __name__ == "__main__":
     app.debug = False
