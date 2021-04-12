@@ -1,5 +1,5 @@
 # import the necessary packages
-from flask import Flask, request, render_template, Response
+from flask import Flask, request, Response
 import pytesseract
 from PIL import Image
 from pdf2image import convert_from_path
